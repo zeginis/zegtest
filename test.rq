@@ -7,12 +7,12 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT  ?targetNS
+SELECT DISTINCT  ?targetNS ?sourcetNS
 WHERE {
     ?s ?p ?o .
   FILTER ((?p = rdfs:subClassOf) || (?p = rdfs:subPropertyOf)) .
-  FILTER ((STRSTARTS(str(?s), ?__sourcenamespace))).
-  FILTER ((STRSTARTS(str(?o), ?__targetnamespace))).
+  FILTER ((STRSTARTS(str(?s), ?_sourcenamespace))|| (STRSTARTS(str(?o), ?_sourcenamespace))).
   BIND (STRBEFORE(str(?o),"#") AS ?targetNS)    
+  BIND (STRBEFORE(str(?p),"#") AS ?sourcetNS) 
 }
 ORDER BY ?targetNS
